@@ -13,9 +13,10 @@ const mix = require('laravel-mix');
 
 mix.js('resources/js/admin/app.js', 'public/js/admin-app.js')
     .js('resources/js/app.js', 'public/js')
-    .copy('resources/css/style.css', 'public/css')
+    // .copy('resources/css/style.css', 'public/css')
+    .sass('resources/scss/main.scss', 'public/css')
+    .sass('resources/scss/media.scss', 'public/css')
     .copyDirectory('resources/img', 'public/img')
-    // .copyDirectory('resources/video', 'public/video')
     .copyDirectory('resources/fonts', 'public/fonts')
     .copyDirectory('resources/favicon', 'public/favicon')
 

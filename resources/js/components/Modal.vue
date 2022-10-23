@@ -1,57 +1,117 @@
 <template>
 
-    <transition>
-        <div @click="modalMainOffTarget($event)" v-show="stateModalMain" class="modal modal--active modal-main">
-            <form @submit.prevent="addOrder" action="#" class="modal-main__dialog">
-                <img @click="modalMainOff" src="img/modal/close.png" alt="close" class="modal-main__close">
-                <h3 class="modal-main__title">Обратный звонок</h3>
-                <p class="modal-main__subtitle">Для сотрудничества с нами оставьте свои данные.</p>
+<!--    <transition>-->
+<!--        <div @click="modalMainOffTarget($event)" v-show="stateModalMain" class="modal modal&#45;&#45;active modal-main">-->
+<!--            <form @submit.prevent="addOrder" action="#" class="modal-main__dialog">-->
+<!--                <img @click="modalMainOff" src="img/modal/close.png" alt="close" class="modal-main__close">-->
+<!--                <h3 class="modal-main__title">Обратный звонок</h3>-->
+<!--                <p class="modal-main__subtitle">Для сотрудничества с нами оставьте свои данные.</p>-->
 
-                <div class="modal-main__input-group">
-                    <input
-                        v-model="name"
-                        :class="{'is-invalid':($v.name.$dirty && !$v.name.required) || ($v.name.$dirty && !$v.name.minLength)}"
-                        id="modalName"
-                        type="text"
-                        placeholder="Имя"
-                        class="modal-main__input"
-                    >
-                    <div  class="invalid-feedback" v-if="($v.name.$dirty && !$v.name.required)">Обязательное поле.</div>
-                    <div  class="invalid-feedback" v-else-if="($v.name.$dirty && !$v.name.minLength)">Имя должно быть больше 1 буквы</div>
-                </div>
+<!--                <div class="modal-main__input-group">-->
+<!--                    <input-->
+<!--                        v-model="name"-->
+<!--                        :class="{'is-invalid':($v.name.$dirty && !$v.name.required) || ($v.name.$dirty && !$v.name.minLength)}"-->
+<!--                        id="modalName"-->
+<!--                        type="text"-->
+<!--                        placeholder="Имя"-->
+<!--                        class="modal-main__input"-->
+<!--                    >-->
+<!--                    <div  class="invalid-feedback" v-if="($v.name.$dirty && !$v.name.required)">Обязательное поле.</div>-->
+<!--                    <div  class="invalid-feedback" v-else-if="($v.name.$dirty && !$v.name.minLength)">Имя должно быть больше 1 буквы</div>-->
+<!--                </div>-->
 
-                <div class="modal-main__input-group">
-                    <input
-                        v-model="phone"
-                        v-phone
-                        maxlength="16"
-                        :class="{'is-invalid':($v.phone.$dirty && !$v.phone.required) || ($v.phone.$dirty && !$v.phone.isPhone)}"
-                        :disabled="isDisabled"
-                        id="modalTel"
-                        type="tel"
-                        placeholder="+7 (___) ___ - __ - __"
-                        class="modal-main__input"
-                    >
-                    <div  class="invalid-feedback" v-if="($v.phone.$dirty && !$v.phone.required)">Обязательное поле.</div>
-                    <div  class="invalid-feedback" v-else-if="($v.phone.$dirty && !$v.phone.isPhone)">Неверный формат номера</div>
-                </div>
+<!--                <div class="modal-main__input-group">-->
+<!--                    <input-->
+<!--                        v-model="phone"-->
+<!--                        v-phone-->
+<!--                        maxlength="16"-->
+<!--                        :class="{'is-invalid':($v.phone.$dirty && !$v.phone.required) || ($v.phone.$dirty && !$v.phone.isPhone)}"-->
+<!--                        :disabled="isDisabled"-->
+<!--                        id="modalTel"-->
+<!--                        type="tel"-->
+<!--                        placeholder="+7 (___) ___ - __ - __"-->
+<!--                        class="modal-main__input"-->
+<!--                    >-->
+<!--                    <div  class="invalid-feedback" v-if="($v.phone.$dirty && !$v.phone.required)">Обязательное поле.</div>-->
+<!--                    <div  class="invalid-feedback" v-else-if="($v.phone.$dirty && !$v.phone.isPhone)">Неверный формат номера</div>-->
+<!--                </div>-->
 
-                <button
-                    id="modalSend"
-                    class="button modal-main__button"
-                    type="submit"
-                >
-                    {{ isDisabled ? 'Отправка...' : 'Отправить'}}
+<!--                <button-->
+<!--                    id="modalSend"-->
+<!--                    class="button modal-main__button"-->
+<!--                    type="submit"-->
+<!--                >-->
+<!--                    {{ isDisabled ? 'Отправка...' : 'Отправить'}}-->
+<!--                </button>-->
+
+<!--                <div class="modal-main__text-small">-->
+<!--                    Нажимая на кнопку, вы даете согласие на обработку-->
+<!--                    персональных данных-->
+<!--                </div>-->
+<!--            </form>-->
+<!--        </div>-->
+<!--        &lt;!&ndash; ./modal modal-main &ndash;&gt;-->
+<!--    </transition>-->
+
+    <div class="modal fade" id="staticBackdrop" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1"
+         aria-labelledby="staticBackdropLabel" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content d-flex justify-content-center align-items-center">
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Закрыть">
+                    <img src="../.././img/modal/closed.svg" alt="">
                 </button>
+                <form @submit.prevent="addOrder" action="#" class="modal-content_wrapper text-center">
+                    <h2 class="modal-title mb-2 mb-lg-3">Оставьте заявку</h2>
 
-                <div class="modal-main__text-small">
-                    Нажимая на кнопку, вы даете согласие на обработку
-                    персональных данных
-                </div>
-            </form>
+                    <p class="modal-description mb-4">Оставьте номер телефона и Ваше имя.
+                        Наш менеджер расскажет Вам все подробнее</p>
+
+                    <div class="w-100 mb-2 mb-lg-3" action="">
+
+                        <div class="modal-main__input-group  mb-2 mb-lg-3">
+                            <input
+                                v-model="name"
+                                :class="{'is-invalid':($v.name.$dirty && !$v.name.required) || ($v.name.$dirty && !$v.name.minLength)}"
+                                id="modalName"
+                                type="text"
+                                placeholder="Имя"
+                                class="input"
+                            >
+                            <div  class="invalid-feedback" v-if="($v.name.$dirty && !$v.name.required)">Обязательное поле.</div>
+                            <div  class="invalid-feedback" v-else-if="($v.name.$dirty && !$v.name.minLength)">Имя должно быть больше 1 буквы</div>
+                        </div>
+
+                        <div class="modal-main__input-group">
+                            <input
+                                v-model="phone"
+                                v-phone
+                                maxlength="16"
+                                :class="{'is-invalid':($v.phone.$dirty && !$v.phone.required) || ($v.phone.$dirty && !$v.phone.isPhone)}"
+                                :disabled="isDisabled"
+                                id="modalTel"
+                                type="tel"
+                                placeholder="+7 (___) ___ - __ - __"
+                                class="input"
+                            >
+                            <div  class="invalid-feedback" v-if="($v.phone.$dirty && !$v.phone.required)">Обязательное поле.</div>
+                            <div  class="invalid-feedback" v-else-if="($v.phone.$dirty && !$v.phone.isPhone)">Неверный формат номера</div>
+                        </div>
+                    </div>
+
+                    <button
+                        id="modalSend"
+                        class="btn modal-btn mb-3"
+                        type="submit"
+                    >
+                        {{ isDisabled ? 'Отправка...' : 'Отправить'}}
+                    </button>
+
+                    <p class="modal-argument">Нажимая кнопку, вы даете согласие на обработку персональных данных</p>
+                </form>
+            </div>
         </div>
-        <!-- ./modal modal-main -->
-    </transition>
+    </div>
+
 </template>
 
 <script>

@@ -3,6 +3,7 @@ import Vuelidate from 'vuelidate';
 import Vuex from 'vuex';
 import store from './store';
 import VueLazyload from 'vue-lazyload';
+import select from './scripts/select';
 import './bootstrap';
 
 
@@ -12,13 +13,8 @@ Vue.use(VueLazyload,{
 Vue.use(Vuelidate);
 Vue.use(Vuex);
 
-Vue.component('header-app', require('./components/Header.vue').default);
-Vue.component('main-app', require('./components/Main.vue').default);
-Vue.component('quiz-app', require('./components/Quiz.vue').default);
-Vue.component('feat-app', require('./components/Feat.vue').default);
-Vue.component('last-step', require('./components/LastStep.vue').default);
-Vue.component('footer-app', require('./components/Footer.vue').default);
-Vue.component('quiz-thanks', require('./components/QuizThanks.vue').default);
+Vue.component('questions-app', require('./components/Questions.vue').default);
+Vue.component('contacts-app', require('./components/Contacts.vue').default);
 Vue.component('modal-app', require('./components/Modal.vue').default);
 Vue.component('modal-thanks', require('./components/ModalThanks.vue').default);
 
@@ -96,3 +92,5 @@ const app = new Vue({
 
     }
 });
+
+select();

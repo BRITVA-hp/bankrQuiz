@@ -1,16 +1,12 @@
 <template>
     <transition>
 
-        <div v-show="stateModalThanks" @click="modalThanksOffTarget($event)" class="modal modal--active modal-thanks">
-            <div class="modal-thanks__dialog">
-                <img @click="modalThanksOff" src="img/modal/close.png" alt="close" class="modal-thanks__close">
-                <img src="img/modal/ok.png" alt="ok" class="modal-thanks__img">
-                <p class="modal-thanks__title">Заявка отправлена</p>
-                <p class="modal-thanks__text">Мы получили вашу заявку. <br> Наш юрист свяжется с вами</p>
-            </div>
+        <div v-if="stateModalThanks" @click="modalThanksOffTarget($event)" class="thanks position-fixed d-flex align-items-center flex-column justify-content-center text-center">
+            <img @click="modalThanksOff" class="position-absolute" src="../../img/modal/closed.svg" alt="">
+            <h3 class="thanks__title mb-4">Заявка отправлена</h3>
+            <p class="thanks__text">Мы получили вашу заявку. <br>
+                Наш менеджер свяжится с вами.</p>3
         </div>
-        <!-- ./modal modal-thanks -->
-
 
     </transition>
 </template>
