@@ -5,12 +5,21 @@ import store from './store';
 import VueLazyload from 'vue-lazyload';
 import './bootstrap';
 
+// toast
+import Toast from "vue-toastification";
+// Import the CSS or use your own!
+import "vue-toastification/dist/index.css";
+
+const options = {
+    position: 'bottom-right'
+}
 
 Vue.use(VueLazyload,{
     lazyComponent: true
 });
 Vue.use(Vuelidate);
 Vue.use(Vuex);
+Vue.use(Toast, options);
 
 Vue.component('main-app', require('./components/Main.vue').default);
 Vue.component('modal-app', require('./components/Modal.vue').default);

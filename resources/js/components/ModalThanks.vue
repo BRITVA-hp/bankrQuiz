@@ -5,7 +5,7 @@
             <img @click="modalThanksOff" class="position-absolute" src="../../img/modal/closed.svg" alt="">
             <h3 class="thanks__title mb-4">Заявка отправлена</h3>
             <p class="thanks__text">Мы получили вашу заявку. <br>
-                Наш менеджер свяжится с вами.</p>3
+                Наш менеджер свяжится с вами.</p>
         </div>
 
     </transition>

@@ -40,39 +40,24 @@ class OrderController extends Controller
         $name = $request->input('name');
         $phone = $request->input('phone');
 
+        $_answers = '';
+        foreach ($request->input('answers') as $qa) {
+            if (is_array($qa['answer']))
+                $_answers .= "Вопрос: " . $qa['question'] . " Ответ: " . implode(',',$qa['answer']) . PHP_EOL;
+            else
+                $_answers .= "Вопрос: " . $qa['question'] . " Ответ: " . $qa['answer'] . PHP_EOL;
+        }
+
+        $_bonuses = 'Бонусы: ' . implode(', ', $request->input('bonuses'));
+        $request->merge([
+            'answers' => $_answers,
+            'bonuses' => $_bonuses
+        ]);
+
         $this->createOrder($name,$phone);
         $this->leadHunterAdd($request);
 
         //Mail::to(env('MAIL_TO_ADDRESS'))->send(new SendMail($name,$phone,$region));
-        return  response()->json($request->all(),200);
-    }
-
-    public function quizStore(Request $request){
-
-        $this->validate($request,[
-            'phone' => 'required|regex:/^\d(\d{3})(\d{3})(\d{4})$/',
-        ]);
-        $name = $request->input('name');
-        $phone = $request->input('phone');
-        $data = $request->input('data');
-
-        $_data = '';
-        foreach ($request->input('data') as $qa) {
-            if (is_array($qa['answer']))
-                $_data .= "Вопрос: " . $qa['question'] . " Ответ: " . implode(',',$qa['answer']);
-            else
-                $_data .= "Вопрос: " . $qa['question'] . " Ответ: " . $qa['answer'] . ' ';
-        }
-
-        $request->merge([
-            'data' => $_data,
-        ]);
-        $this->createOrder($name,$phone);
-        $this->leadHunterAdd($request);
-
-
-
-        //Mail::to(env('MAIL_TO_ADDRESS'))->send(new SendMailQuiz($data,$phone,$name));
         return  response()->json($request->all(),200);
     }
 
@@ -87,14 +72,14 @@ class OrderController extends Controller
             'api_token' => 'IcuQS09tDL5ofj113fXiCTP68Coja92TRhn5jepGFMRjh0YCqT79kcj8LTYk',
             'name' =>$request->has('name') ? $request->input('name') : 'Аноним',
             'phone' => $request->input('phone'),
-            'city' => $request->input('region'),
-            'comment' => $request->has('data') ? $request->input('data') : '',
+            'city' => $request->input('city'),
+            'comment' => $request->input('answers') . $request->input('bonuses'),
             'ip' => $this->getUserIpAddr(),
             'host' => $request->input('host'),
             'referrer' => $request->input('referrer'),
             'url_query_string' => $request->input('url_query_string')
         ];
-
+        dd($data);
         $response = Http::withOptions(['verify' => false])->withHeaders(['Content-Type' => 'application/json'])->post('https://in.leads-hunter.com/api/v1/lead.add', $data);
 
         Log::info($response);
